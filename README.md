@@ -145,6 +145,43 @@ The source documents this column as being in **lakhs** (1 lakh = ₹100,000), wh
 consistent with the distribution above: a median of ₹72 lakh for Bengaluru property.
 The mean sits well above the median, so the distribution is strongly right-skewed.
 
+## The data, in pictures
+
+Drawn from the **training set only** (`scripts/explore_figures.py`). Looking at a
+chart is a way of learning from data, so plotting the test set and then making
+decisions would leak just as surely as fitting on it.
+
+**Why the model is trained on `log(price)`.** The mean asking price (₹113 lakh)
+sits well above the median (₹73 lakh), so a small number of very expensive
+properties dominate any average. On a log scale the distribution is roughly
+symmetric, which is a far better shape to fit.
+
+![Distribution of asking price](reports/figures/price_distribution.png)
+
+**Size against price**, separated by how the area was measured. The relationship is
+close to a straight line on log–log axes, which is why `log_sqft` is a feature.
+
+Two things visible here that are not in any summary table. The vertical stripes are
+real: sizes cluster on round numbers like 600, 1,200 and 2,400 sq ft, because
+listings are advertised in round figures. And plot-area listings (green) sit
+noticeably higher at large sizes — a 4,000 sq ft plot is not the same product as a
+4,000 sq ft flat.
+
+![Size against price](reports/figures/size_vs_price.png)
+
+**Locality matters enormously.** Median asking price per square foot varies almost
+fivefold across the city, from about ₹2,957 in Chandapura to ₹13,958 in Rajaji
+Nagar. This is why encoding locality by its typical price beat giving each of 1,265
+localities its own column.
+
+![Price per square foot by locality](reports/figures/price_per_sqft_by_location.png)
+
+**What cleaning removed, and why.** 13,320 raw listings become 12,612 usable ones.
+The log scale is needed because the largest category (529 exact duplicates) is two
+hundred times the smallest (2 listings claiming more than 20 bedrooms).
+
+![Cleaning audit](reports/figures/cleaning_audit.png)
+
 ## Method
 
 ### The split, made before anything was fitted
@@ -440,6 +477,7 @@ docker compose run --rm hpp python -m pytest
 docker compose run --rm hpp python scripts/explore_raw.py
 docker compose run --rm hpp python scripts/clean_data.py
 docker compose run --rm hpp python scripts/make_splits.py
+docker compose run --rm hpp python scripts/explore_figures.py
 docker compose run --rm hpp python scripts/train.py
 docker compose run --rm hpp python scripts/tune.py
 docker compose run --rm hpp python scripts/evaluate.py
