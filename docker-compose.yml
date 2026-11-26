@@ -1,0 +1,11 @@
+services:
+  hpp:
+    build: .
+    image: house-price-prediction:local
+    working_dir: /app
+    # The project folder is mounted live, so editing a file on Windows
+    # immediately changes what runs inside the container.
+    volumes:
+      - .:/app
+    environment:
+      PYTHONPATH: /app/src

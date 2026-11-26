@@ -1,0 +1,4 @@
+# The code runs on Linux inside Docker, so keep LF endings in the repository.
+# Without this, files authored on Windows get CRLF and shell scripts break
+# inside the container with "bad interpreter" errors.
+* text=auto eol=lf

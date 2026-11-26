@@ -1,0 +1,12 @@
+.git/
+.venv/
+venv/
+data/
+models/
+reports/figures/
+reports/metrics/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+requirements-lock.txt

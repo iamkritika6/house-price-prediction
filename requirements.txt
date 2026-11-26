@@ -1,0 +1,17 @@
+# Core
+numpy>=2.0
+pandas>=2.2
+scipy>=1.13
+scikit-learn>=1.5
+
+# Gradient boosting
+lightgbm>=4.3
+
+# Explainability
+shap>=0.45
+
+# Plots
+matplotlib>=3.8
+
+# Tests
+pytest>=8.0
